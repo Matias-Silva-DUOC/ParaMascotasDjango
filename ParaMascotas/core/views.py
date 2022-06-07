@@ -42,6 +42,8 @@ def registro(request):
         if formulario.is_valid:
             formulario.save()
             datos['mensaje'] = "El Usuario se ha registrado correctamente.";
+        else:
+            datos['mensaje'] = "Datos incompletos o inválidos."
 
     return render(request, 'core/registro.html', datos)
 
