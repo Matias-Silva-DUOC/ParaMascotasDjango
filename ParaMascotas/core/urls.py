@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, login, registro, perfil
+from .views import delet_user, home, login, registro, perfil
 
 
 urlpatterns = [
@@ -7,4 +7,5 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('registro/', registro, name='registro'),
     path('perfil/', perfil, name='perfil'),
+    path('delet-user/<email>', delet_user, name=delet_user),    ##  TENER FE
 ]

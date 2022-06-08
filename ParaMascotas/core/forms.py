@@ -13,3 +13,7 @@ class LoginForm(ModelForm):
     class Meta:
         model = Usuario
         fields = ['email_usuario', 'contra_usuario']
+
+class ModUser(ModelForm):
+    model = Usuario
+    fields = ['nombre_usuario', 'ape_usuario', 'contra_usuario', 'rol_usuario']

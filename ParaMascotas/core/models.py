@@ -1,3 +1,5 @@
+from tabnanny import verbose
+from tkinter import CASCADE
 from django import forms
 from django.db import models
 
@@ -20,6 +22,7 @@ class Producto(models.Model):
     nombre      = models.CharField(max_length=32, verbose_name='Nombre Producto')
     precio      = models.IntegerField()
     region      = models.ForeignKey(Region, on_delete=models.CASCADE)
+    stock       = models.IntegerField(verbose_name='Stock Producto')
 
     def __str__(self):
         return self.nombre
@@ -46,3 +49,15 @@ class Usuario(models.Model):
 
 
 ##  CLASE HISTORIAL VENTAS
+
+class Historial(models.Models):
+    id_venta        = models.IntegerField(primary_key=True, verbose_name="ID Venta")
+    id_prod_venta   = models.ForeignKey(Producto, on_delete=CASCADE, verbose_name="ID Producto Venta")
+    ## nom_prod_venta  = models.ForeignObject(Producto.nombre, on_delete=CASCADE, verbose_name="Nombre Producto Venta")    ##  TENER FE
+    vendedor        = models.ForeignKey(Usuario, on_delete=CASCADE, verbose_name="Vendedor")
+    comprador       = models.ForeignKey(Usuario, on_delete=CASCADE, verbose_name="Comprador")
+    total_venta     = models.IntegerField(verbose_name="Total Venta")
+
+
+    def __str__(self):
+        return self.nom_prod_venta
