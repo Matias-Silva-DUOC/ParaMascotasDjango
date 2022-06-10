@@ -1,12 +1,36 @@
 from django.shortcuts import render, redirect
-from .forms import RegistroForm, LoginForm, ModUser
-from .models import Historial, Region, Producto, Usuario
-
+from django.http import HttpResponse
+from django.contrib import messages
+from .forms import RegistroForm
+from .models import Region, Producto, Usuario
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
+#intento de login
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'usuario does not existe')
+        
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Contraseña o usuari incorrectos')    
+    context = {}
+    return render(request, 'core/login.html', context)
 
 ##  VISTA ÍNDICE
+
 
 def home(request):
 
@@ -20,11 +44,11 @@ def home(request):
 
 ##  VISTA LOGIN
 
-def login(request):
+#def login(request):
         
     ## usuarios = Usuario.objects.all()
 
-    return render(request, 'core/login.html')
+ #   return render(request, 'core/login.html')
 
 
 ##  VISTA REGISTRO
@@ -42,11 +66,6 @@ def registro(request):
         if formulario.is_valid:
             formulario.save()
             datos['mensaje'] = "El Usuario se ha registrado correctamente.";
-            
-            return redirect(to='perfil')
-
-            ## AÑADIR UN IF PARA CUANDO EL USUARIO SEA TIPO ADMIN
-
         else:
             datos['mensaje'] = "Datos incompletos o inválidos."
 
@@ -59,46 +78,3 @@ def perfil(request):
     ## usuarios = Usuario.objects.all()
 
     return render(request, 'core/perfil.html')
-
-##  VISTA DE USUARIO ADMINISTRADOR
-
-def administrar(request):
-
-    usuarios    = Usuario.objects.all()
-    productos   = Producto.objects.all()
-    ventas      = Historial.objects.all()
-
-    return render(request, 'core/administrar.html', usuarios, productos, ventas)
-
-##  FUNCIÓN PARA ELIMINAR USUARIO
-
-def delet_user(resquest, email):
-
-    usuario = Usuario.objects.get(email_usuario = email)
-
-    usuario.delete()
-
-    return redirect(to='administrar')
-
-##  VISTA MODIFICAR USUARIO
-
-def mod_user(request, email):
-    
-    usuario = Usuario.objects.get(email_usuario = email)
-
-    datos = {
-        'form' : ModUser(instance=usuario)
-    }
-
-
-
-    if request.method=='POST':
-
-        formulario = RegistroForm(request.POST)
-
-        if formulario.is_valid:
-            formulario.save()
-            datos['mensaje'] = "El Usuario se ha modificado correctamente.";
-            
-            return redirect(to='administrar')
-
