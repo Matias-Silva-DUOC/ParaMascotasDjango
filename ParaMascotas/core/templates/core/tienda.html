@@ -1,0 +1,74 @@
+{% extends 'core/main.html' %}
+{% load static %}
+{% block content %}
+<h1>TIENDA</h1>
+<div class="row">
+  {% for product in products %}
+  <div class="col-lg-4">
+
+    <div class="box-element product">
+      <h6><strong>{{product.name}}</strong></h6>
+      <hr>
+
+      <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Añadir al carrito</button>
+
+      <a class="btn btn-outline-success" href="#">ver</a>
+      <h4 style="display: inline-block; float:right">
+        <strong>${{product.price}}</strong></h4>
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5>Bandana Cute</h5>
+      </div>
+      <div class="card-body">
+          <img src="https://spzcdn02.akamaized.net/assets/uploads/productos/cfc22-ban.jpg" style="max-width:250px">
+        </div>
+      <div class="card-footer">
+        <span class="text-decoration-line-through">$12.990</span> <b>&nbsp;$9.990&nbsp;</b>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5>Collar c/ID Rojo</h5>
+      </div>
+      <div class="card-body">
+          <img src="https://spzcdn02.akamaized.net/assets/uploads/productos/4c1a0-red.jpg" style="max-width:250px">
+        </div>
+      <div class="card-footer">
+        <span class="text-decoration-line-through">$19.990</span> <b>&nbsp;$12.990&nbsp;</b>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5>Arnés estampado S-M</h5>
+      </div>
+      <div class="card-body">
+          <img src="https://spzcdn03.akamaized.net/assets/uploads/productos/14510-ella-1_air_mesh_ajustavel.jpg"
+            style="max-width:250px;">
+        </div>
+      <div class="card-footer">
+        <span class="text-decoration-line-through">$19.990</span> <b>&nbsp;$9.990&nbsp;</b>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

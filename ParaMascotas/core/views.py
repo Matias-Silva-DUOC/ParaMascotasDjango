@@ -1,8 +1,10 @@
+from email import contentmanager
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import RegistroForm
-from .models import Region, Producto, Usuario
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -78,3 +80,36 @@ def perfil(request):
     ## usuarios = Usuario.objects.all()
 
     return render(request, 'core/perfil.html')
+
+## ev4 VISTA tienda 
+
+def tienda(request):
+    products = Product.objects.all()
+    context = {'products':products}
+    return render(request, 'core/tienda.html', context)
+
+## ev4 VISTA carrito 
+
+def carrito(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total':0,'get_cart_items':0}    
+    context = {'items':items, 'order':order}
+    return render(request, 'core/carrito.html', context)
+
+## ev4 VISTA chackout 
+
+def checkout(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total':0,'get_cart_items':0}
+    context = {'items':items, 'order':order}
+    return render(request, 'core/checkout.html', context)

@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import home, registro, perfil #login
-from .import views
+from .views import *
+from . import views
 
 
 urlpatterns = [
@@ -10,4 +10,9 @@ urlpatterns = [
     #path('login/', login, name='login'),
     path('registro/', registro, name='registro'),
     path('perfil/', perfil, name='perfil'),
+    #ev 4
+    path('tienda/', tienda, name='tienda'),
+    path('carrito/', carrito, name='carrito'),
+    path('checkout/', checkout, name='checkout'),
+    
 ]
